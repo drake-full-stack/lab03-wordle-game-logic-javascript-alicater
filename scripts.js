@@ -156,24 +156,24 @@ function submitGuess() {
     logDebug(`Checking guess: "${guess}" against "${TARGET_WORD}"`, 'info');
     
     checkGuess(guess, tiles) // checking guess
-
-    // row progression
-    currentRow++;
-    currentTile = 0;
     
     // if player Won
     if (guess === TARGET_WORD) {
         gameOver = true;
         logDebug("You Won! Game Over", 'sucess');
         setTimeout(() => alert("Congradulations, you won!"), 500);
+        return; 
     } 
+    // row progression
+    currentRow++;
+    currentTile = 0;
     // if player Lost
-    else if (currentRow >= 6) {
+
+    if (currentRow >= 6) {
         gameOver = true;
         logDebug("You Lost :( Game Over", 'error');
         setTimeout(() => alert(`Game Over! The target word was: "${TARGET_WORD}"`), 500);
-    }
-    else {
+    } else {
         logDebug("Going to next row", 'info');
     }
 }
@@ -182,3 +182,4 @@ function submitGuess() {
 function checkGuess(guess, tiles) {
 
 }
+
