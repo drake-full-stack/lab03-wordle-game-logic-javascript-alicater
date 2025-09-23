@@ -68,14 +68,50 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===== YOUR CHALLENGE: IMPLEMENT THESE FUNCTIONS =====
 
 // TODO: Add keyboard event listener
-// document.addEventListener("keydown", (event) => {
-//     // Your code here!
-// });
+document.addEventListener("keydown", (event) => {
+    console.log("This was pressed: ", event.key) // logs key presses
+    
+    if (gameOver) { // checks if the game is already over
+        return;
+    }
+    const key = event.key.toUpperCase(); // converts to uppercase
+    if (key === "BACKSPACE") { // triggers the deleteLetter() func if backspace
+        deleteLetter();
+        return;
+    }
+    if (key === "Enter") { // submits guess if enter is hit
+        submitGuess();
+        return;
+    }
+    if (/^[a-z]$/i.test(key)) { // valid letters, a-z only
+        addLetter(key);
+        return;
+    }
+    console.log("Ignored: ", event.key) // ignores other keys hit
+});
+
 
 // TODO: Implement addLetter function
-// function addLetter(letter) {
-//     // Your code here!
-// }
+function addLetter(letter) {
+    logDebug(`🎯 addLetter("${letter}") called`, 'info');
+    
+    if (currentTile >= 5) { // checks if row is full
+        logDebug("Row is full, cannot add more letters", 'error');
+        return;
+    }
+
+    // Handling Tiles
+    const rowElement = rows[currentRow]; // gets current row element
+    const tiles = rowElement.querySelectorAll('.tile'); // gets all tiles in row
+    const tile = tiles[currentTile]; // gets specific tile
+    tile.textContent = letter; // sets specific tile to the letter
+    tile.classList.add('filled') // adds the 'filled' CSS class
+    currentTile++; // goes to the next tile
+
+    // Debug log
+    logDebug(`Added "${letter}" to tile position ${currentTile} in row ${currentRow}`, 'success');
+    logDebug(`Current word progess: ${getCurrentWord}`, 'info');
+}
 
 // TODO: Implement deleteLetter function  
 // function deleteLetter() {
