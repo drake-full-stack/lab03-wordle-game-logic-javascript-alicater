@@ -79,7 +79,7 @@ document.addEventListener("keydown", (event) => {
         deleteLetter();
         return;
     }
-    if (key === "Enter") { // submits guess if enter is hit
+    if (key === "ENTER") { // submits guess if enter is hit
         submitGuess();
         return;
     }
@@ -110,7 +110,7 @@ function addLetter(letter) {
 
     // Debug log
     logDebug(`Added "${letter}" to tile position ${currentTile} in row ${currentRow}`, 'success');
-    logDebug(`Current word progess: ${getCurrentWord}`, 'info');
+    logDebug(`Current word progess: ${getCurrentWord()}`, 'info');
 }
 
 // TODO: Implement deleteLetter function  
@@ -133,17 +133,52 @@ function deleteLetter() {
 
     // Debug Log
     logDebug(`Deleted: "${letterBeingDeleted}" from ${currentTile + 1} in row ${currentRow}`, 'success');
-    logDebug(`Current word status: ${getCurrentWord}`, 'info');
+    logDebug(`Current word status: ${getCurrentWord()}`, 'info');
 }
 
 // TODO: Implement submitGuess function
-// function submitGuess() {
-//     // Your code here!
-// }
+function submitGuess() {
+    logDebug(`📝 submitGuess() called`, 'info');
+    
+    if (currentTile !==5) { // check for if 5 letters
+        alert("Please enter 5 letters!")
+        return;
+    }
+
+    // Getting tile location, building guess string, and logging
+    const currentRowElement = rows[currentRow]; // gets current row
+    const tiles = currentRowElement.querySelectorAll('.tile'); // gets all tiles
+    let guess = '';
+    tiles.forEach(tile => {
+        guess += tile.textContent;
+
+    })
+    logDebug(`Checking guess: "${guess}" against "${TARGET_WORD}"`, 'info');
+    
+    checkGuess(guess, tiles) // checking guess
+
+    // row progression
+    currentRow++;
+    currentTile = 0;
+    
+    // if player Won
+    if (guess === TARGET_WORD) {
+        gameOver = true;
+        logDebug("You Won! Game Over", 'sucess');
+        setTimeout(() => alert("Congradulations, you won!"), 500);
+    } 
+    // if player Lost
+    else if (currentRow >= 6) {
+        gameOver = true;
+        logDebug("You Lost :( Game Over", 'error');
+        setTimeout(() => alert(`Game Over! The target word was: "${TARGET_WORD}"`), 500);
+    }
+    else {
+        logDebug("Going to next row", 'info');
+    }
+}
 
 // TODO: Implement checkGuess function (the hardest part!)
-// function checkGuess(guess, tiles) {
-//     // Your code here!
-//     // Remember: handle duplicate letters correctly
-//     // Return the result array
-// }
+function checkGuess(guess, tiles) {
+
+}
