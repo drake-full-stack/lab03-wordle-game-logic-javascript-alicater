@@ -114,9 +114,27 @@ function addLetter(letter) {
 }
 
 // TODO: Implement deleteLetter function  
-// function deleteLetter() {
-//     // Your code here!
-// }
+function deleteLetter() {
+    logDebug(`🗑️ deleteLetter() called`, 'info');   
+
+    if (currentTile <= 0) { // checks if no letters
+        logDebug("No letters to delete", 'error');
+        return;
+    }
+
+    // Handles Tiles
+    currentTile--; // decrement currentTile to last filled tile
+    const currentRowElement = rows[currentRow]; // gets current row
+    const tiles = currentRowElement.querySelectorAll('.tile'); // gets all tiles
+    const tileToDelete = tiles[currentTile]; // specifies tile to clear
+    const letterBeingDeleted = tileToDelete.textContent; // stores letter being deleted
+    tileToDelete.textContent = ''; // deletes content
+    tileToDelete.classList.remove('filled'); // removes class
+
+    // Debug Log
+    logDebug(`Deleted: "${letterBeingDeleted}" from ${currentTile + 1} in row ${currentRow}`, 'success');
+    logDebug(`Current word status: ${getCurrentWord}`, 'info');
+}
 
 // TODO: Implement submitGuess function
 // function submitGuess() {
